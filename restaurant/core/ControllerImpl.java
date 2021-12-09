@@ -33,49 +33,43 @@ public class ControllerImpl implements Controller {
 
     @Override
     public String addHealthyFood(String type, double price, String name) {
-        HealthyFood healthyFood = this.healthFoodRepository.foodByName(name);
-        if (healthyFood != null)
-            throw new IllegalArgumentException(String.format(FOOD_EXIST, name));
+       HealthyFood food=type.equals("Salad")?new Salad(name, price)
+               : new VeganBiscuits(name,price);
 
-        HealthyFoodType healthyFoodType = HealthyFoodType.valueOf(type);
-        if (healthyFoodType.equals(HealthyFoodType.Salad))
-            healthyFood = new Salad(name, price);
-        else if (healthyFoodType.equals(HealthyFoodType.VeganBiscuits))
-            healthyFood = new VeganBiscuits(name, price);
+        HealthyFood previouslyAddedFood=this.healthFoodRepository.foodByName(name);
+        if(previouslyAddedFood!=null)
+            throw new IllegalArgumentException(String.format(FOOD_EXIST,name));
 
-        this.healthFoodRepository.add(healthyFood);
+        this.healthFoodRepository.add(food);
+
         return String.format(FOOD_ADDED, name);
     }
 
     @Override
     public String addBeverage(String type, int counter, String brand, String name) {
-        Beverages beverages = this.beverageRepository.beverageByName(name, brand);
-        if (beverages != null)
-            throw new IllegalArgumentException(String.format(BEVERAGE_EXIST, name));
+        Beverages beverage=type.equals("Fresh")?new Fresh(name, brand,counter)
+                : new Smoothie(name,brand,counter);
 
-        BeveragesType beveragesType = BeveragesType.valueOf(type);
-        if (beveragesType.equals(BeveragesType.Fresh))
-            beverages = new Fresh(name, brand, counter);
-        else if (beveragesType.equals(BeveragesType.Smoothie))
-            beverages = new Smoothie(name, brand, counter);
+        Beverages previousBeverages=this.beverageRepository.beverageByName(name,brand);
+        if(previousBeverages!=null)
+            throw new IllegalArgumentException(String.format(BEVERAGE_EXIST,name));
 
-        this.beverageRepository.add(beverages);
-        return String.format(BEVERAGE_ADDED, type, brand);
+        this.beverageRepository.add(beverage);
+
+        return String.format(BEVERAGE_ADDED, type,brand);
     }
 
     @Override
     public String addTable(String type, int tableNumber, int capacity) {
-        Table table = this.tableRepository.byNumber(tableNumber);
-        if (table != null)
-            throw new IllegalArgumentException(String.format(TABLE_EXIST, tableNumber));
+        Table table=type.equals("Indoors")?new Indoors(tableNumber,capacity)
+                : new InGarden(tableNumber,capacity);
 
-        TableType tableType = TableType.valueOf(type);
-        if (tableType.equals(TableType.Indoors))
-            table = new Indoors(tableNumber, capacity);
-        else if (tableType.equals(TableType.InGarden))
-            table = new InGarden(tableNumber, capacity);
+        Table previousTable=this.tableRepository.byNumber(tableNumber);
+        if(previousTable!=null)
+            throw new IllegalArgumentException(String.format(TABLE_EXIST,tableNumber));
 
-        tableRepository.add(table);
+        this.tableRepository.add(table);
+
         return String.format(TABLE_ADDED, tableNumber);
     }
 
