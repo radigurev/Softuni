@@ -36,6 +36,7 @@ public class Shop {
         if (this.shelves.get(shelf) != null) {
             throw new IllegalArgumentException("The shelf is already taken!");
         }
+
         boolean itemExist = getShelves().containsValue(goods);
 
         if (itemExist) {
