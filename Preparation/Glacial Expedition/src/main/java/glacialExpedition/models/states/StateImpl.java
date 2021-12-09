@@ -1,22 +1,24 @@
 package glacialExpedition.models.states;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class StateImpl implements State{
     private String name;
     private Collection<String> exhibits;
 
-    protected StateImpl(String name) {
+    public StateImpl(String name) {
         this.name = name;
+        exhibits=new ArrayList<>();
     }
 
     @Override
     public Collection<String> getExhibits() {
-        return null;
+        return this.exhibits;
     }
 
     @Override
     public String getName() {
-        return null;
+        return this.name;
     }
 }

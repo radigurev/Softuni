@@ -2,29 +2,38 @@ package glacialExpedition.repositories;
 
 import glacialExpedition.models.explorers.Explorer;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
-public abstract class ExplorerRepository implements Repository<Explorer>{
+public class ExplorerRepository implements Repository<Explorer>{
     private Collection<Explorer> explorers;
 
+    public ExplorerRepository() {
+        explorers=new ArrayList<>();
+    }
 
     @Override
-    public Collection getCollection() {
-        return null;
+    public Collection<Explorer> getCollection() {
+        return Collections.unmodifiableCollection(this.explorers);
     }
 
     @Override
     public void add(Explorer entity) {
-
+            this.explorers.add(entity);
     }
 
     @Override
     public boolean remove(Explorer entity) {
-        return false;
+
+        return explorers.remove(entity);
     }
 
     @Override
     public Explorer byName(String name) {
-        return null;
+        return this.explorers.stream()
+                .filter(e->e.getName().equals(name))
+                .findFirst()
+                .orElse(null);
     }
 }
