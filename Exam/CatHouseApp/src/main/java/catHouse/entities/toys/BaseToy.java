@@ -12,11 +12,11 @@ public abstract class BaseToy implements Toy{
 
     @Override
     public int getSoftness() {
-        return 0;
+        return this.softness;
     }
 
     @Override
     public double getPrice() {
-        return 0;
+        return this.price;
     }
 }
